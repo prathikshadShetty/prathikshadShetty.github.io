@@ -219,12 +219,14 @@ li {
   margin-top:48px;
   width: 85%; 
  height: 720px;
- position: relative;
- display: flex;
- flex-direction: column;
+/*  position: relative; */
+ border: #DFBC6A 1px solid;
+ display: inline-block;  */ flex to inline block */
+/*  flex-direction: column; */
  justify-content: space-between;
  background-color: #F0F0F0;
  /* font-size: 0.5em; */
+ cursor: move;
 }
 
 .days {
