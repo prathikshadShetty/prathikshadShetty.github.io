@@ -270,7 +270,7 @@ li {
   cursor: move;
 }
 
-#drop_zone {
+/* #drop_zone {
     background-color: #eee;
   position: absolute;
     border: #999 1px solid ;
@@ -279,7 +279,7 @@ li {
     padding: 8px;
     font-size: 19px;
   }
-
+ */
 
 /* #drop_zone {
   background-color: rgba(86, 184, 134, 0.1);
