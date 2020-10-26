@@ -122,12 +122,12 @@ li {
   padding: 5px;
 }
 
-.calendar-day-empty2{
+/* .calendar-day-empty2{
   position: relative;
   min-height: 100px;
   font-size: 16px;
   /* background-color: #e4e9f0; */
-  background-color: #e4e9f0;
+/*   background-color: #e4e9f0;
   border: solid 0.5px  #cfd7e3;
   color: #b5c0cd;
   padding: 5px;
@@ -137,13 +137,12 @@ li {
   min-height: 100px;
   font-size: 16px;
   /* background-color: #e4e9f0; */
-  background-color: #e4e9f0;
+/*   background-color: #e4e9f0;
   border: solid 0.5px  #cfd7e3;
   color: #b5c0cd;
   padding: 5px;
-}
-
-
+} */
+ 
 .calendar-day-empty > span {
   display: flex;
   justify-content: center;
