@@ -270,18 +270,15 @@ li {
   cursor: move;
 }
 
-#drop_zone { 
-     background-color: #eee;
-    top: 280px;
+#drop_zone {
+    background-color: #eee;
     border: #999 1px solid ;
     width: 280px;
     height: 200px;
     padding: 8px;
     font-size: 19px;
+  }
 
-  
-  
-   }
 
 /* #drop_zone {
   background-color: rgba(86, 184, 134, 0.1);
