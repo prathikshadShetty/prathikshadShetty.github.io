@@ -270,7 +270,7 @@ li {
   cursor: move;
 }
 
-.drop_zone {
+#drop_zone {
     background-color: #eee;
     top: 280px;
     border: #999 1px solid ;
