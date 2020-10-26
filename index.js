@@ -55,23 +55,23 @@ window.onload = function () {
     var originalX = '';
     var originalY = '';
 
-    object1.addEventListener('dragstart', handleDragStart, false);
-    object1.addEventListener('dragend', handleDragEnd, false);
-    object1.addEventListener('touchstart', handleTouchStart, false);
-    object1.addEventListener('touchmove', handleTouchMove, false);
-    object1.addEventListener('touchend', handleTouchEnd, false);
+    event.addEventListener('dragstart', handleDragStart, false);
+    event.addEventListener('dragend', handleDragEnd, false);
+    event.addEventListener('touchstart', handleTouchStart, false);
+    event.addEventListener('touchmove', handleTouchMove, false);
+    event.addEventListener('touchend', handleTouchEnd, false);
 
-    object2.addEventListener('dragstart', handleDragStart, false);
-    object2.addEventListener('dragend', handleDragEnd, false);
-    object2.addEventListener('touchstart', handleTouchStart, false);
-    object2.addEventListener('touchmove', handleTouchMove, false);
-    object2.addEventListener('touchend', handleTouchEnd, false);
+//     object2.addEventListener('dragstart', handleDragStart, false);
+//     object2.addEventListener('dragend', handleDragEnd, false);
+//     object2.addEventListener('touchstart', handleTouchStart, false);
+//     object2.addEventListener('touchmove', handleTouchMove, false);
+//     object2.addEventListener('touchend', handleTouchEnd, false);
 
-    object3.addEventListener('dragstart', handleDragStart, false);
-    object3.addEventListener('dragend', handleDragEnd, false);
-    object3.addEventListener('touchstart', handleTouchStart, false);
-    object3.addEventListener('touchmove', handleTouchMove, false);
-    object3.addEventListener('touchend', handleTouchEnd, false);
+//     object3.addEventListener('dragstart', handleDragStart, false);
+//     object3.addEventListener('dragend', handleDragEnd, false);
+//     object3.addEventListener('touchstart', handleTouchStart, false);
+//     object3.addEventListener('touchmove', handleTouchMove, false);
+//     object3.addEventListener('touchend', handleTouchEnd, false);
 
     function handleDragStart(e) {
         _('app_status').innerHTML = "Dragging the element " + e
