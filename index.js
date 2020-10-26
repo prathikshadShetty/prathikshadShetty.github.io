@@ -7,6 +7,9 @@ function cutEvent(){
 function copyEvent(){
     console.log("copy")
 }
+
+// drag drop event starts
+
 function _(id) {
     return document.getElementById(id);
 }
@@ -144,6 +147,7 @@ window.onload = function () {
         return true;
     }
 }
+// drag drop event ends
 
 function addEvent(){
     let node = document.createElement("DIV");
