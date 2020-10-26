@@ -285,7 +285,7 @@ li {
 
 #drop_zone {
   background-color: rgba(86, 184, 134, 0.1);
-  top: 500px;
+  padding-top: 500px;
   position: absolute;
   width: 100%;
   border-style: solid;
