@@ -31,7 +31,6 @@
               <li>Sat</li>
               <li>Sun</li>
           </ol>
-           <div id="drop_zone" ondragover="return false"></div>
           <ol id="calendar-days" class="days-grid">
             <li class="calendar-day-empty" draggable="true">
               <span>28  </span>
@@ -170,7 +169,8 @@
           </div>
           <div id="events" class="timings-event">
             <!-- <div class="event"><span class="title">yaya</span><br>yay<br></div> -->
-            <div class="event">Meeting with UI project team</div>
+            <div id="drop_zone" ondragover="return false"></div>
+            <div class="event" draggable="true" >Meeting with UI project team</div>
             <div class="day-view-empty">
               
             </div>
