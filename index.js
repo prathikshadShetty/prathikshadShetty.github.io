@@ -50,7 +50,7 @@ window.onload = function () {
     }
 
     // Draggable element functionality
-    var event_1 = _('event');
+    var event_1 = _('dragevent');
 //     var calendar_2 = _('calendar-day-empty2');
 //     var calendar_3 = _('calendar-day-empty3');
 
@@ -58,11 +58,11 @@ window.onload = function () {
     var originalX = '';
     var originalY = '';
 
-    event.addEventListener('dragstart', handleDragStart, false);
-    event.addEventListener('dragend', handleDragEnd, false);
-    event.addEventListener('touchstart', handleTouchStart, false);
-    event.addEventListener('touchmove', handleTouchMove, false);
-    event.addEventListener('touchend', handleTouchEnd, false);
+    dragevent.addEventListener('dragstart', handleDragStart, false);
+    dragevent.addEventListener('dragend', handleDragEnd, false);
+    dragevent.addEventListener('touchstart', handleTouchStart, false);
+    dragevent.addEventListener('touchmove', handleTouchMove, false);
+    dragevent.addEventListener('touchend', handleTouchEnd, false);
 
 //     object2.addEventListener('dragstart', handleDragStart, false);
 //     object2.addEventListener('dragend', handleDragEnd, false);
