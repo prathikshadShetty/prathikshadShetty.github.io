@@ -47,9 +47,9 @@ window.onload = function () {
     }
 
     // Draggable element functionality
-    var calendar_1 = _('calendar-day-empty1');
-    var calendar_2 = _('calendar-day-empty2');
-    var calendar_3 = _('calendar-day-empty3');
+    var event_1 = _('event');
+//     var calendar_2 = _('calendar-day-empty2');
+//     var calendar_3 = _('calendar-day-empty3');
 
     var activeEvent = '';
     var originalX = '';
