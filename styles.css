@@ -272,6 +272,17 @@ li {
 
 .drop_zone {
     background-color: #eee;
+    top: 280px;
+    border: #999 1px solid ;
+    width: 280px;
+    height: 200px;
+    padding: 8px;
+    font-size: 19px;
+  }
+
+
+/* .drop_zone {
+    background-color: #eee;
     top: 80px;
     border: #999 1px solid ;
     position: absolute;
@@ -285,13 +296,14 @@ li {
   padding-left: 5px;
   
   font-size: 20px;
-  cursor: move;
-/*     width: 280px;
-    height: 200px; */
-/*     padding-left: 5px; */
-/*     padding: 8px; */
-/*     font-size: 20px; */
-}
+  cursor: move; 
+     width: 280px;
+    height: 200px; 
+     padding-left: 5px; 
+    padding: 8px; 
+    font-size: 20px; 
+}*/
+
 
 .event .title {
   color: #57b986;
