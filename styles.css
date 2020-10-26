@@ -270,8 +270,8 @@ li {
   cursor: move;
 }
 
-#drop_zone {
-/*     background-color: #eee;
+/* #drop_zone { 
+     background-color: #eee;
     top: 280px;
     border: #999 1px solid ;
     width: 280px;
@@ -279,9 +279,9 @@ li {
     padding: 8px;
     font-size: 19px;
   should work!
-  */
   
-  }
+  
+   } */
 
 
 /* .drop_zone {
