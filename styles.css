@@ -432,3 +432,162 @@ a:nth-child(7){
   color:#7FC8BD;
   border-color: #7FC8BD;
 }
+
+.add-event {
+  border: 3px solid #f1f1f1;
+  display: none;
+  position: absolute;
+  border-radius: 5%;
+  border-color: rgb(241, 241, 241);
+  /* border-color:  rgb(200, 127, 138,0.3); */
+  width: 300px;
+}
+
+/* Add styles to the form container */
+.form-container {
+  /* max-width: 300px; */
+  padding: 10px;
+  border-radius: 5%;
+
+  background-color: white;
+}
+
+.form-container .headers{
+  color: dimgrey;
+  padding: 12px 10px 10px 5px;
+  font-size: 12px;
+  /* padding-left: 0px; */
+}
+
+/* Full-width input fields */
+.form-container .title{
+  width: 100%;
+  padding: 10px;
+  margin: 5px 0 10px 0;
+  border: none;
+  border-bottom: 2px solid #c87f8a;
+  background: rgb(241, 241, 241,0.4);
+}
+.form-container .textextra{
+  font-size: 10px;
+  width: 100%;
+  padding: 10px;
+  margin: 5px 0 10px 0;
+  border: none;
+  /* border-bottom: 2px solid #c87f8a; */
+  background: rgb(241, 241, 241,0.4);
+}
+.time{
+  font-size: 10px;
+  width: 70%;
+  padding: 10px;
+  margin: 5px 0 10px 0;
+  border: none;
+
+  background: rgb(241, 241, 241,0.4);
+}
+.time-wrong{
+  font-size: 10px;
+  width: 70%;
+  padding: 10px;
+  margin: 5px 0 10px 0;
+  border:solid;
+  border-width: 1px;
+  border-color: red;
+}
+
+/* When the inputs get focus, do something */
+.form-container input[type=text]:focus, .form-container input[type=password]:focus {
+  /* background-color: #ddd; */
+  font-weight: bold;
+  outline: none;
+}
+
+/* Set a style for the submit/login button */
+.form-container .btn {
+  background-color: #4CAF50;
+  color: white;
+  padding: 12px 20px;
+  margin: 5px 10px 5px 10px;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  height: 50%;
+  opacity: 0.8;
+}
+
+/* Add a red background color to the cancel button */
+.form-container .cancel {
+  background-color: red;
+}
+
+/* Add some hover effects to buttons */
+.form-container .btn:hover, .open-button:hover {
+  opacity: 1;
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 25px;
+}
+
+/* Hide default HTML checkbox */
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* The slider */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 17px;
+  width: 17px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #c87f8a;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #c87f8a;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
+.time-selector{
+  display: flex;
+}

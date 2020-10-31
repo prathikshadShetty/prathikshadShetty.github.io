@@ -1,5 +1,7 @@
 var timer;
 var touchduration = 500;
+var addEventChanged=false;
+var touch;
 
 function cutEvent(){
     console.log("cut")
@@ -149,25 +151,27 @@ window.onload = function () {
 }
 // drag drop event ends
 
-function addEvent(){
-    let node = document.createElement("DIV");
-    node.className = "event";
-    node.innerHTML="yay";
-    // node.innerHTML = 
-    // "<span class='title'> Sample Item </span> \
-    // <br><span class='location'> Sample Location </span>";
-  
-    // Customized CSS to position each event
-    // node.style.width = (containerWidth/units) + "px";
-    // node.style.height = height + "px";
-    node.style.top = "110px";
-    // node.style.left = 100 + left + "px";
-  
-    document.getElementById("events").appendChild(node);
+function addEvent(touch){
+    document.getElementById("addEvent").style.display = "block";
+    document.getElementById("addEvent").style.top = (touch.pageY-50) + 'px';
+    document.getElementById("addEvent").style.left = (touch.pageX-50) + 'px';
+    var menu_state = document.querySelector('.menu').classList.value;
+        if(menu_state=="menu open"){
+            document.querySelector('.menu').classList.value = "menu";
+        }
 }
 function deleteEvent(){
     console.log("delete")
 }
+
+
+document.getElementById("form").addEventListener('change',function(event){
+    addEventChanged = true;
+    document.getElementById("addEvent").style.display = "block";
+    // checkStatus();
+    
+});
+
 document.addEventListener('touchstart', function(event) {
     // console.log("touch");
   // If there's exactly one finger inside this element
@@ -175,7 +179,7 @@ document.addEventListener('touchstart', function(event) {
   if (event.targetTouches.length == 1) {
     timer = setTimeout(function(){ 
         // console.log("long-press")
-        console.log(event);
+        // console.log(event);
         if(event.targetTouches[0].target.parentElement.id=="calendar-days"||event.targetTouches[0].target.parentElement.id=="events" ){
             var touch = event.targetTouches[0];
             document.querySelector('.menu').classList.value="menu open";
@@ -192,7 +196,11 @@ document.addEventListener('touchstart', function(event) {
         if(menu_state=="menu open"){
             document.querySelector('.menu').classList.value = "menu";
         }
+        document.getElementById("addEvent").style.display = "none";
+
     }
+
+    getFocus(event.targetTouches[0].target.id);
 
     if(event.targetTouches[0].target.id=="delete"){
         deleteEvent();
@@ -204,7 +212,7 @@ document.addEventListener('touchstart', function(event) {
         copyEvent();
     }
     if(event.targetTouches[0].target.id=="add"){
-       addEvent();
+       addEvent(touch);
     }
         
 
@@ -219,8 +227,22 @@ document.addEventListener('touchend',function(event){
         clearTimeout(timer);
 },{passive:false});
 
+function checkStatus(){
+    if(addEventChanged == true ){
+        document.getElementById("addEvent").style.display = "block";
+    }
+}
 
-// document.addEventListener("DOMContentLoaded", function(event) { 
-//     window.addEventListener("touchstart", touchstart, false);
-//     window.addEventListener("touchend", touchend, false);
-// });
+function getFocus(eventName){
+    if (eventName =="eventName" || eventName =="eventDesc"||eventName =="eventLocation"){
+        document.getElementById(eventName).focus();
+    }
+}
+
+function addEventTile(){}
+
+function endEvent(){
+    document.getElementById("addEvent").style.display = "none";
+    addEventChanged=false;
+}
+
