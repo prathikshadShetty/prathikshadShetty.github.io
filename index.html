@@ -64,6 +64,8 @@
                </li>
                <li id="8" class="calendar-day">
                  <span>8</span>
+                 <!-- <div class="eventMonth"><span class="title">yaya</span></div>
+                 <div class="eventMonth"><span class="title">yaya</span></div> -->
                </li>
                <li id="9" class="calendar-day">
                  <span>9</span>
@@ -141,34 +143,32 @@
           <div id="day-view" class="column right" >
               <div class = "day-view">
                 <div class="timings">
-                  <div class="date"> <span> 9:00 </span> AM </div>
+                  <div class="date"> <span> 9:00 </span> AM <div class="date small"> 9:30 </div></div>
                   <!-- <div class="small"> 9:30 </div> -->
-                  <div class="date"> <span> 10:00 </span>AM </div>
+                  <div class="date"> <span> 10:00 </span>AM <div class="date small"> 10:30 </div></div>
                   <!-- <div class="date"> 10:30 </div> -->
-                  <div class="date"> <span> 11:00 </span>AM </div>
+                  <div class="date"> <span> 11:00 </span>AM <div class="date small"> 11:30 </div></div>
                   <!-- <div class="date"> 11:30 </div> -->
-                  <div class="date"> <span> 12:00 </span>PM </div>
+                  <div class="date"> <span> 12:00 </span>PM <div class="date small"> 12:30 </div></div>
                   <!-- <div class="date"> 12:30 </div> -->
-                  <div class="date"> <span> 1:00 </span>PM </div>
+                  <div class="date"> <span> 1:00 </span>PM <div class="date small"> 1:30 </div></div>
                   <!-- <div class="date"> 1:30 </div> -->
-                  <div class="date"> <span> 2:00 </span>PM </div>
+                  <div class="date"> <span> 2:00 </span>PM <div class="date small"> 2:30 </div></div>
                   <!-- <div class="date"> 2:30 </div> -->
-                  <div class="date"> <span> 3:00 </span>PM </div>
+                  <div class="date"> <span> 3:00 </span>PM <div class="date small"> 3:30 </div></div>
                   <!-- <div class="date"> 3:30 </div> -->
-                  <div class="date"> <span> 4:00 </span>PM </div>
+                  <div class="date"> <span> 4:00 </span>PM <div class="date small"> 4:30 </div></div>
                   <!-- <div class="date"> 4:30 </div> -->
-                  <div class="date"> <span> 5:00 </span>PM </div>
+                  <div class="date"> <span> 5:00 </span>PM <div class="date small"> 5:30 </div></div>
                   <!-- <div class="date"> 5:30 </div> -->
-                  <div class="date"> <span> 6:00 </span>PM </div>
+                  <div class="date"> <span> 6:00 </span>PM <div class="date small"> 6:30 </div></div>
                   <!-- <div class="date"> 6:30 </div> -->
-                  <div class="date"> <span> 7:00 </span>PM </div>
-                  <!-- <div class="date"> 7:30 </div> -->
-                  <div class="date"> <span> 8:00 </span>PM </div>
-                  <!-- <div class="date"> 8:30 </div> -->
+                  <div class="date"> <span> 7:00 </span>PM <div class="date small"> 7:30 </div></div>
+
+                  <div class="date"> <span> 8:00 </span>PM <div class="date small"> 8:30 </div></div>
                   <!-- <div class="date"> <span> 9:00 </span>PM </div> -->
                 </div>
                 <div id="events" class="timings-event">
-                  <div class="event"><span class="title">yaya</span><br>yay<br></div>
                   <!-- <div id="drop_zone" ondragover="return false"></div>
                   <div id = "dragevent" class="event" draggable="true" >Meeting with UI project team</div> -->
                   <div class="day-view-empty">                  
@@ -193,24 +193,60 @@
                 <a id="bars" class="fa fa-times-circle"></a>
                 <a id="cut" href="javascript:;" onclick="cutEvent();" class="fa fa-cut"></a>
                 <a id="delete" href="javascript:;" onclick="deleteEvent();" class="fa fa-trash-alt"></a>
-                <a id="add" href="javascript:;" onclick="addEvent();" class="fa fa-plus"></a>
+                <a id="add" href="javascript:;" onclick="add();" class="fa fa-plus"></a>
                 <a id="copy" href="javascript:;" onclick="copyEvent();" class="fa fa-copy"></a>
               </div>
       
               <div class="add-event" id="addEvent">
                 <div class="form-container" id="form">
                   <input class="title" type="text" id="eventName" placeholder="Title" name="eventName">
-                  <div style="display: flex;">
+                  <!-- <div style="display: flex;">
                     <label class="headers">Location</label>
                     <input class="textextra" type="text" placeholder="Location" id="eventLocation">
-                  </div>
+                  </div> -->
                   <div style="display: flex;">
                     <label class="headers">Description</label>
-                    <input class="textextra" type="text" placeholder="Description" id="eventDesc">
+                    <input class="textextra desc" type="text" placeholder="Description" id="eventDesc">
                   </div>
                   <div style="display: flex;">
                     <label class="headers">Date </label>
-                    <input id="dateentry" class="textextra" type="text" placeholder="Date" id="eventDesc" readonly="True">
+                    <!-- <input id="dateentry" class="textextra" type="text" placeholder="Date" id="eventDesc"> -->
+                    <select class="time" id="dateentry">
+                      <option value="1">October 1</option>
+                      <option value="2">October 2</option>
+                      <option value="3">October 3</option>
+                      <option value="4">October 4</option>
+                      <option value="5">October 5</option>
+                      <option value="6">October 6</option>
+                      <option value="7">October 7</option>
+                      <option value="8">October 8</option>
+                      <option value="8">October 9</option>
+                      <option value="9">October 10</option>
+                      <option value="10">October 10</option>
+                      <option value="11">October 11</option>
+                      <option value="12">October 12</option>
+                      <option value="13">October 13</option>
+                      <option value="14">October 14</option>
+                      <option value="15">October 15</option>
+                      <option value="16">October 16</option>
+                      <option value="17">October 17</option>
+                      <option value="18">October 18</option>
+                      <option value="19">October 19</option>
+                      <option value="20">October 20</option>
+                      <option value="21">October 21</option>
+                      <option value="22">October 22</option>
+                      <option value="23">October 23</option>
+                      <option value="24">October 24</option>
+                      <option value="25">October 25</option>
+                      <option value="26">October 26</option>
+                      <option value="27">October 27</option>
+                      <option value="28">October 28</option>
+                      <option value="29">October 29</option>
+                      <option value="30">October 30</option>
+                      <option value="31">October 31</option>
+          
+          
+                    </select>
                   </div>
                   <div class="time-selector">
                     <label class="headers">Start</label>
@@ -244,7 +280,7 @@
           
                     </select>
                     <label class="headers">End</label>
-                      <select class="time" id="startTime" onselect="" name="startTime">
+                      <select class="time" id="endTime" onselect="" name="endTime">
                         <option value="9">9:00 AM</option>
                         <option value="9.5">9:30 AM</option>
                         <option value="10">10:00 AM</option>
@@ -273,8 +309,8 @@
                     </select>
                   </div>
                   <div style="display: flex;">
-                    <button class="btn">Add</button>
-                    <button class="btn cancel" onclick="endEvent()">Cancel</button>
+                    <button class="btn" onclick="addEvent()">Add</button>
+                    <button class="btn cancel" onclick="cancelEvent()">Cancel</button>
                   </div>
               
                   

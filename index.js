@@ -2,17 +2,25 @@ var timer;
 var touchduration = 500;
 var addEventChanged=false;
 var touch;
+var count = 0;
 var date =0;
 dates=["","October 1","October 2","October 3","October 4","October 5","October 6","October 7","October 8","October 9","October 10","October 11","October 12","October 13","October 14","October 15","October 16","October 17","October 18","October 19","October 20","October 21","October 22","October 23","October 24","October 25","October 26","October 27","October 28","October 29","October 30","October 31"] 
 
-document.getElementById("month-view").addEventListener('touchstart',function(event){
+document.getElementById("month-view").addEventListener('touchstart',touchs,false);
+document.getElementById("month-view").addEventListener('touchend',touche,false);
+document.getElementById("day-view").addEventListener('touchstart',touchs,false);
+document.getElementById("day-view").addEventListener('touchend',touche,false);
+
+function touchs(event){
     event.preventDefault();
+    console.log(event);
     if (event.targetTouches.length == 1) {
         timer = setTimeout(function(){ 
             // console.log("long-press")
             // console.log(event);
             if(event.targetTouches[0].target.parentElement.id=="calendar-days"||event.targetTouches[0].target.parentElement.id=="events" ){
                 var touch = event.targetTouches[0];
+                console.log(touch);
                 date = parseInt(touch.target.id);
                 document.querySelector('.menu').classList.value="menu open";
                 var menu = document.getElementById("menu");
@@ -30,29 +38,91 @@ document.getElementById("month-view").addEventListener('touchstart',function(eve
             document.getElementById("addEvent").style.display = "none";
     
         }
-}},false);
+}}
 
-document.getElementById("month-view").addEventListener('touchend',function(event){
+function touche(event){
     event.preventDefault ();
     document.getElementById("startTime").click();
     // console.log("touch end");
     EVENT = event;
     if (timer)
         clearTimeout(timer);
-},{passive:false});
+}
 
-function addEvent(){
+function add(){
     document.getElementById("addEvent").style.display = "block";
     document.getElementById("addEvent").style.top = (touch.pageY-50) + 'px';
     document.getElementById("addEvent").style.left = (touch.pageX-50) + 'px';
-    // console.log(date);
-    // console.log(dates[date]);
-    document.getElementById("dateentry").value = dates[date];
+    if (date!=""){
+        document.getElementById("dateentry").value = date;
+    }
+    else{
+        document.getElementById("dateentry").value = 1;
+
+    }
+    
     var menu_state = document.querySelector('.menu').classList.value;
         if(menu_state=="menu open"){
             document.querySelector('.menu').classList.value = "menu";
         }
 }
+
+function addEvent(){
+    var eventName = document.getElementById("eventName").value;
+    var eventDesc = document.getElementById("eventDesc").value;
+    var date =document.getElementById("dateentry").value;
+    var startTime = document.getElementById("startTime").value;
+    var endTime = document.getElementById("endTime").value;
+    count = count+1;
+    var t =0;
+    var h =0;
+    if (startTime >0){
+        t = (startTime-9)*61
+    }
+
+    if (endTime>0){
+        h = 30;
+        if (endTime-startTime>0){
+            h = (endTime-startTime)*60;
+        }
+    }
+    if (eventName=="" && eventDesc=="" && date==""){
+        cancelEvent();
+    }
+    else{
+        var ev = document.createElement("div");
+        ev.id = "event"+count;
+        ev.className = "event";
+        ev.innerHTML="<span class=\"title\">"+eventName+"</span><p class=\"desc\">"+eventDesc+"<p>";
+        ev.style="margin-top:"+t+"px;height:"+h+"px";
+        document.getElementById("events").insertBefore(ev,document.getElementById("events").firstChild);
+        if (date!=""){
+            var mev = document.createElement("div");
+            mev.id = "eventMonth"+count;
+            mev.className = "eventMonth";
+            mev.innerHTML="<span class=\"title\">"+ eventName+"</span>";
+            document.getElementById(date).appendChild(mev);
+            console.log(mev);
+
+        }
+
+
+
+    }
+    
+    cancelEvent();
+
+
+}
+
+function cancelEvent(){
+    document.getElementById("eventName").value ="";
+    document.getElementById("eventDesc").value="";
+    document.getElementById("startTime").value=9;
+    document.getElementById("endTime").value=9;
+    document.getElementById("addEvent").style.display = "none";
+}
+
 
 // drag drop event starts
 
@@ -193,3 +263,5 @@ window.onload = function () {
         return true;
     }
 }
+
+// .getElementById("month-view")

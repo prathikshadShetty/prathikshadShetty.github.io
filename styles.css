@@ -87,6 +87,11 @@ li {
   margin:0;
 }
 
+.desc{
+  margin:0px;
+  font-size:12px ;
+}
+
 .calendar-day-empty {
   position: relative;
   min-height: 100px;
@@ -131,7 +136,7 @@ li {
 .timings {
   text-align: right;
   padding-right: 10px;
-  margin-top:2px;
+  margin-top:0px;
   background-color: white;
   border-right-width: 5px;
   border-color: #D1D1D1;
@@ -148,6 +153,10 @@ li {
   height:60px;
   margin:0;
   padding:0;
+}
+
+.timings .date .small{
+margin-top:20px;
 }
 
 .timings .small{
@@ -200,7 +209,7 @@ li {
 }
 
 .event {
-  background-color: rgba(86, 184, 134, 0.1);
+  background-color: rgba(86, 184, 134, 0.4);
   position: absolute;
   width: 100%;
   border-style: solid;
@@ -214,6 +223,26 @@ li {
   cursor: move;
 }
 
+.title{
+  font-size: 15px;
+}
+.eventMonth {
+  background-color: rgba(86, 184, 134, 0.4);
+  position: relative;
+  width: 75%;
+  margin-top:5px;
+  height:30px;
+  border-radius: 5px;
+  border-style: solid;
+  border-width: 1px;
+  border-left-width: 5px;
+  border-color: #D1D1D1;
+  border-left-color: #57b986;
+  text-align:left;
+  padding-left: 5px;
+  font-size: 20px;
+  cursor: move;
+}
 
 .fa-times-circle{
 font-size: 20px;
@@ -249,9 +278,9 @@ transition: all 0.1s ease-out;
 
 .open.menu{
  opacity: 1;
- transform:scale(2);
- -webkit-transform: scale(2);
- -moz-transform: scale(2);
+ transform:scale(1.75);
+ -webkit-transform: scale(1.75);
+ -moz-transform: scale(1.75);
 }
 
 .menu a {
@@ -410,4 +439,13 @@ opacity: 0.8;
 /* Add a red background color to the cancel button */
 .form-container .cancel {
 background-color: red;
+}
+.time{
+  font-size: 10px;
+  /* width: 70%; */
+  padding: 10px;
+  margin: 5px 0 10px 0;
+  border: none;
+
+  background: rgb(241, 241, 241,0.4);
 }
