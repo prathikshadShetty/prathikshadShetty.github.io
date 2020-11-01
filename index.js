@@ -2,12 +2,56 @@ var timer;
 var touchduration = 500;
 var addEventChanged=false;
 var touch;
+var date =0;
+dates=["","October 1","October 2","October 3","October 4","October 5","October 6","October 7","October 8","October 9","October 10","October 11","October 12","October 13","October 14","October 15","October 16","October 17","October 18","October 19","October 20","October 21","October 22","October 23","October 24","October 25","October 26","October 27","October 28","October 29","October 30","October 31"] 
 
-function cutEvent(){
-    console.log("cut")
-}
-function copyEvent(){
-    console.log("copy")
+document.getElementById("month-view").addEventListener('touchstart',function(event){
+    event.preventDefault();
+    if (event.targetTouches.length == 1) {
+        timer = setTimeout(function(){ 
+            // console.log("long-press")
+            // console.log(event);
+            if(event.targetTouches[0].target.parentElement.id=="calendar-days"||event.targetTouches[0].target.parentElement.id=="events" ){
+                var touch = event.targetTouches[0];
+                date = parseInt(touch.target.id);
+                document.querySelector('.menu').classList.value="menu open";
+                var menu = document.getElementById("menu");
+                void menu.offsetWidth; 
+                menu.style.top = (touch.pageY-50) + 'px';
+                menu.style.left = (touch.pageX-50) + 'px';
+            }
+        },touchduration); 
+        touch = event.targetTouches[0];
+        if(event.targetTouches[0].target.parentElement.id=="calendar-days"||event.targetTouches[0].target.parentElement.id=="events" || event.targetTouches[0].target.id=="bars"){
+            var menu_state = document.querySelector('.menu').classList.value;
+            if(menu_state=="menu open"){
+                document.querySelector('.menu').classList.value = "menu";
+            }
+            document.getElementById("addEvent").style.display = "none";
+    
+        }
+}},false);
+
+document.getElementById("month-view").addEventListener('touchend',function(event){
+    event.preventDefault ();
+    document.getElementById("startTime").click();
+    // console.log("touch end");
+    EVENT = event;
+    if (timer)
+        clearTimeout(timer);
+},{passive:false});
+
+function addEvent(){
+    document.getElementById("addEvent").style.display = "block";
+    document.getElementById("addEvent").style.top = (touch.pageY-50) + 'px';
+    document.getElementById("addEvent").style.left = (touch.pageX-50) + 'px';
+    // console.log(date);
+    // console.log(dates[date]);
+    document.getElementById("dateentry").value = dates[date];
+    var menu_state = document.querySelector('.menu').classList.value;
+        if(menu_state=="menu open"){
+            document.querySelector('.menu').classList.value = "menu";
+        }
 }
 
 // drag drop event starts
@@ -149,100 +193,3 @@ window.onload = function () {
         return true;
     }
 }
-// drag drop event ends
-
-function addEvent(touch){
-    document.getElementById("addEvent").style.display = "block";
-    document.getElementById("addEvent").style.top = (touch.pageY-50) + 'px';
-    document.getElementById("addEvent").style.left = (touch.pageX-50) + 'px';
-    var menu_state = document.querySelector('.menu').classList.value;
-        if(menu_state=="menu open"){
-            document.querySelector('.menu').classList.value = "menu";
-        }
-}
-function deleteEvent(){
-    console.log("delete")
-}
-
-
-document.getElementById("form").addEventListener('change',function(event){
-    addEventChanged = true;
-    document.getElementById("addEvent").style.display = "block";
-    // checkStatus();
-    
-});
-
-document.addEventListener('touchstart', function(event) {
-    // console.log("touch");
-  // If there's exactly one finger inside this element
-  event.preventDefault ();
-  if (event.targetTouches.length == 1) {
-    timer = setTimeout(function(){ 
-        // console.log("long-press")
-        // console.log(event);
-        if(event.targetTouches[0].target.parentElement.id=="calendar-days"||event.targetTouches[0].target.parentElement.id=="events" ){
-            var touch = event.targetTouches[0];
-            document.querySelector('.menu').classList.value="menu open";
-            var menu = document.getElementById("menu");
-            void menu.offsetWidth; 
-            menu.style.top = (touch.pageY-50) + 'px';
-            menu.style.left = (touch.pageX-50) + 'px';
-            
-        }
-        },touchduration); 
-    var touch = event.targetTouches[0];
-    if(event.targetTouches[0].target.parentElement.id=="calendar-days"||event.targetTouches[0].target.parentElement.id=="events" || event.targetTouches[0].target.id=="bars"){
-        var menu_state = document.querySelector('.menu').classList.value;
-        if(menu_state=="menu open"){
-            document.querySelector('.menu').classList.value = "menu";
-        }
-        document.getElementById("addEvent").style.display = "none";
-
-    }
-
-    getFocus(event.targetTouches[0].target.id);
-
-    if(event.targetTouches[0].target.id=="delete"){
-        deleteEvent();
-    }
-    if(event.targetTouches[0].target.id=="cut"){
-        cutEvent();
-    }
-    if(event.targetTouches[0].target.id=="copy"){
-        copyEvent();
-    }
-    if(event.targetTouches[0].target.id=="add"){
-       addEvent(touch);
-    }
-        
-
-
-}},{passive: false});
-
-document.addEventListener('touchend',function(event){
-    event.preventDefault ();
-    // console.log("touch end");
-    EVENT = event;
-    if (timer)
-        clearTimeout(timer);
-},{passive:false});
-
-function checkStatus(){
-    if(addEventChanged == true ){
-        document.getElementById("addEvent").style.display = "block";
-    }
-}
-
-function getFocus(eventName){
-    if (eventName =="eventName" || eventName =="eventDesc"||eventName =="eventLocation"){
-        document.getElementById(eventName).focus();
-    }
-}
-
-function addEventTile(){}
-
-function endEvent(){
-    document.getElementById("addEvent").style.display = "none";
-    addEventChanged=false;
-}
-
