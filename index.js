@@ -4,6 +4,7 @@ var addEventChanged=false;
 var touch;
 var count = 0;
 var date =0;
+var mode="cut";
 dates=["","October 1","October 2","October 3","October 4","October 5","October 6","October 7","October 8","October 9","October 10","October 11","October 12","October 13","October 14","October 15","October 16","October 17","October 18","October 19","October 20","October 21","October 22","October 23","October 24","October 25","October 26","October 27","October 28","October 29","October 30","October 31"] 
 
 document.getElementById("month-view").addEventListener('touchstart',touchs,false);
@@ -13,14 +14,12 @@ document.getElementById("day-view").addEventListener('touchend',touche,false);
 
 function touchs(event){
     event.preventDefault();
-    console.log(event);
+    // console.log(event);
     if (event.targetTouches.length == 1) {
         timer = setTimeout(function(){ 
-            // console.log("long-press")
-            // console.log(event);
-            if(event.targetTouches[0].target.parentElement.id=="calendar-days"||event.targetTouches[0].target.parentElement.id=="events" ){
+            if(event.targetTouches[0].target.parentElement.id=="calendar-day"||event.targetTouches[0].target.parentElement.id=="events" ||event.targetTouches[0].target.parentElement.className=="eventMonth"||event.targetTouches[0].target.className=="eventMonth"){
                 var touch = event.targetTouches[0];
-                console.log(touch);
+                // console.log(touch);
                 date = parseInt(touch.target.id);
                 document.querySelector('.menu').classList.value="menu open";
                 var menu = document.getElementById("menu");
@@ -30,12 +29,16 @@ function touchs(event){
             }
         },touchduration); 
         touch = event.targetTouches[0];
-        if(event.targetTouches[0].target.parentElement.id=="calendar-days"||event.targetTouches[0].target.parentElement.id=="events" || event.targetTouches[0].target.id=="bars"){
+        // console.log(event);
+        if(event.targetTouches[0].target.parentElement.id=="calendar-day"||event.targetTouches[0].target.parentElement.id=="events" || event.targetTouches[0].target.id=="bars"||event.targetTouches[0].target.parentElement.className=="eventMonth"||event.targetTouches[0].target.className=="eventMonth"){
+            // console.log(touch);
             var menu_state = document.querySelector('.menu').classList.value;
             if(menu_state=="menu open"){
                 document.querySelector('.menu').classList.value = "menu";
             }
             document.getElementById("addEvent").style.display = "none";
+            document.getElementById("moveEvent").style.display = "none";
+            document.getElementById("deleteEvent").style.display = "none";
     
         }
 }}
@@ -65,6 +68,70 @@ function add(){
         if(menu_state=="menu open"){
             document.querySelector('.menu').classList.value = "menu";
         }
+}
+function cutEvent(){
+
+    if (touch.target.parentElement.className=="eventMonth"||touch.target.className=="eventMonth"){
+        document.getElementById("moveEvent").style.display = "block";
+        document.getElementById("moveEvent").style.top = (touch.pageY-50) + 'px';
+        document.getElementById("moveEvent").style.left = (touch.pageX-50) + 'px';
+        var el = touch.target.dataset.date;
+        document.getElementById("currentDate").value = el;
+        var menu_state = document.querySelector('.menu').classList.value;
+            if(menu_state=="menu open"){
+                document.querySelector('.menu').classList.value = "menu";
+            }
+        mode = "cut";
+    }
+    
+}
+function copyEvent(){
+
+    if (touch.target.parentElement.className=="eventMonth"||touch.target.className=="eventMonth"){
+        document.getElementById("moveEvent").style.display = "block";
+        document.getElementById("moveEvent").style.top = (touch.pageY-50) + 'px';
+        document.getElementById("moveEvent").style.left = (touch.pageX-50) + 'px';
+        var el = touch.target.dataset.date;
+        document.getElementById("currentDate").value = el;
+        var menu_state = document.querySelector('.menu').classList.value;
+            if(menu_state=="menu open"){
+                document.querySelector('.menu').classList.value = "menu";
+            }
+        mode = "copy";
+    }
+    
+}
+
+function deleteEvent(){
+
+    if (touch.target.parentElement.className=="eventMonth"||touch.target.className=="eventMonth"){
+        document.getElementById("deleteEvent").style.display = "block";
+        document.getElementById("deleteEvent").style.top = (touch.pageY-50) + 'px';
+        document.getElementById("deleteEvent").style.left = (touch.pageX-50) + 'px';
+        var el = touch.target.dataset.date;
+        document.getElementById("currentDate").value = el;
+        var menu_state = document.querySelector('.menu').classList.value;
+            if(menu_state=="menu open"){
+                document.querySelector('.menu').classList.value = "menu";
+            }
+        
+    }
+    
+}
+
+function moveEvent(){
+    var oldParent = document.getElementById(touch.target.dataset.date);
+    var eve = touch.target.parentElement;
+    var cln = eve.cloneNode(true);
+    if (mode=="cut"){
+        oldParent.removeChild(eve);
+        document.getElementById(document.getElementById("newDate").value).appendChild(eve);
+    }
+    else{
+        document.getElementById(document.getElementById("newDate").value).appendChild(cln);
+    }
+    
+    document.getElementById("moveEvent").style.display = "none";
 }
 
 function addEvent(){
@@ -99,10 +166,11 @@ function addEvent(){
         if (date!=""){
             var mev = document.createElement("div");
             mev.id = "eventMonth"+count;
+            mev.dataset.date = date;
             mev.className = "eventMonth";
-            mev.innerHTML="<span class=\"title\">"+ eventName+"</span>";
+            mev.innerHTML="<p style=\"width:100%\" class=\"eventMonthtitle\" data-date="+date+">"+ eventName+"</p>";
             document.getElementById(date).appendChild(mev);
-            console.log(mev);
+            // console.log(mev);
 
         }
 
@@ -113,6 +181,13 @@ function addEvent(){
     cancelEvent();
 
 
+}
+
+function del(){
+    var eve = touch.target.parentElement;
+    eve.remove();
+    
+    document.getElementById("deleteEvent").style.display = "none";
 }
 
 function cancelEvent(){
