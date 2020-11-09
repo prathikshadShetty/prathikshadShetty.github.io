@@ -1,32 +1,52 @@
 var timer;
+var clickTimer;
 var touchduration = 500;
 var addEventChanged=false;
 var touch;
 var count = 0;
 var date =0;
 var mode="cut";
+var move=false;
+var tapedTwice = true;
+var tap = false;
+var prevDay =null;
 dates=["","October 1","October 2","October 3","October 4","October 5","October 6","October 7","October 8","October 9","October 10","October 11","October 12","October 13","October 14","October 15","October 16","October 17","October 18","October 19","October 20","October 21","October 22","October 23","October 24","October 25","October 26","October 27","October 28","October 29","October 30","October 31"] 
+
+// let dateMap = new Map([[1,[]],[2,[]],[3,[]],[4,[]],[5,[]],[6,[]],[7,[]],[8,[]],[9,[]],[10,[]],[11,[]],[12,[]],[13,[]],[14,[]],[15,[]],[16,[]],[17,[]],[18,[]],[19,[]],[20,[]],[21,[]],[22,[]],[23,[]],[24,[]],[25,[]],[26,[]],[27,[]],[28,[]],[29,[]],[30,[]],[31,[]]])
+dateMap=[[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]]
+// console.log(dateMap);
+
 
 document.getElementById("month-view").addEventListener('touchstart',touchs,false);
 document.getElementById("month-view").addEventListener('touchend',touche,false);
 document.getElementById("day-view").addEventListener('touchstart',touchs,false);
 document.getElementById("day-view").addEventListener('touchend',touche,false);
+// const evMon = interact('.eventMonth') 
+
+// document.getElementById("month-view").addEventListener('touchmove',touchm,false);
+// document.getElementById("day-view").addEventListener('touchmove',touchm,false);
 
 function touchs(event){
     event.preventDefault();
     // console.log(event);
     if (event.targetTouches.length == 1) {
         timer = setTimeout(function(){ 
-            if(event.targetTouches[0].target.parentElement.id=="calendar-day"||event.targetTouches[0].target.parentElement.id=="events" ||event.targetTouches[0].target.parentElement.className=="eventMonth"||event.targetTouches[0].target.className=="eventMonth"){
-                var touch = event.targetTouches[0];
-                // console.log(touch);
-                date = parseInt(touch.target.id);
-                document.querySelector('.menu').classList.value="menu open";
-                var menu = document.getElementById("menu");
-                void menu.offsetWidth; 
-                menu.style.top = (touch.pageY-50) + 'px';
-                menu.style.left = (touch.pageX-50) + 'px';
+            console.log(move);
+            if (move == false){
+                if( event.targetTouches[0].target.parentElement.id=="calendar-day"||event.targetTouches[0].target.parentElement.id=="events" ||event.targetTouches[0].target.parentElement.className=="eventMonth"||event.targetTouches[0].target.className=="eventMonth"){
+                    
+                    var touch = event.targetTouches[0];
+                    // console.log(touch);
+                    date = parseInt(touch.target.id);
+                    document.querySelector('.menu').classList.value="menu open";
+                    var menu = document.getElementById("menu");
+                    void menu.offsetWidth; 
+                    menu.style.top = (touch.pageY-50) + 'px';
+                    menu.style.left = (touch.pageX-50) + 'px';
+                }
+
             }
+            
         },touchduration); 
         touch = event.targetTouches[0];
         // console.log(event);
@@ -44,13 +64,82 @@ function touchs(event){
 }}
 
 function touche(event){
+    move=false;
     event.preventDefault ();
     document.getElementById("startTime").click();
-    // console.log("touch end");
+    if (prevDay !=null){
+        document.getElementById(prevDay).firstElementChild.style.background="white";
+    }
+    if( event.target.parentElement.id=="calendar-day"){
+        document.getElementById("present-month-selector").innerText = dates[event.target.id];
+        document.getElementById(event.target.id).firstElementChild.style.background="#7FC8BD";
+        updateDayView(event.target.id);
+        prevDay = event.target.id;
+        }
     EVENT = event;
     if (timer)
         clearTimeout(timer);
 }
+
+function touchm(event){
+    
+    move = true;
+    if (touch.target.parentElement.className=="eventMonth"||touch.target.className=="eventMonth"){
+        var oldParent = document.getElementById(touch.target.dataset.date);
+        // console.log(oldParent);
+        var ele = event.target.parentElement;
+        // oldParent.removeChild(ele);
+        ele.style.display="absolute";
+        ele.style.left = (event.targetTouches[0].pageX-480) + 'px';
+        ele.style.top = (event.targetTouches[0].pageY-350) + 'px';
+        event.preventDefault();
+    }
+    
+}
+function onMove (event) {
+    console.log("what");
+    tgt = event.target;
+  
+    const dataX = tgt.getAttribute('data-x');
+    const dataY = tgt.getAttribute('data-y');
+    const initialX = parseFloat(dataX) || 0;
+    const initialY = parseFloat(dataY) || 0;
+  
+    const deltaX = event.dx;
+    const deltaY = event.dy;
+  
+    const newX = initialX + deltaX;
+    const newY = initialY + deltaY;
+  
+    tgt
+      .style
+      .transform = `translate(${newX}px, ${newY}px)`;
+  
+      tgt.setAttribute('data-x', newX);
+      tgt.setAttribute('data-y', newY);
+  }
+  
+function updateDayView(currentDay){
+    dayEvents = dateMap[parseInt(currentDay)];
+    myNode = document.getElementById("events").getElementsByClassName("event");
+    for (i = 0; i < myNode.length; i++) {
+        document.getElementById("events").removeChild(myNode[i]);
+    } 
+    // while (myNode.firstChild) {
+    //     myNode.removeChild(myNode.lastChild);
+    //   }
+    for (i = 0; i < dayEvents.length; i++) {
+        curr = dayEvents[i];
+        var ev = document.createElement("div");
+        ev.id = "event"+curr.dataset.count;
+        ev.className = "event";
+        ev.innerHTML="<span class=\"title\">"+curr.dataset.eventName+"</span><p class=\"desc\">"+curr.dataset.desc+"<p>";
+        ev.style="margin-top:"+curr.dataset.t+"px;height:"+curr.dataset.h+"px";
+        document.getElementById("events").insertBefore(ev,document.getElementById("events").firstChild);
+        // console.log("updating day view");
+      }
+}
+
 
 function add(){
     document.getElementById("addEvent").style.display = "block";
@@ -121,18 +210,78 @@ function deleteEvent(){
 
 function moveEvent(){
     var oldParent = document.getElementById(touch.target.dataset.date);
+    // console.log(dateMap[parseInt(oldParent.id)]);
     var eve = touch.target.parentElement;
     var cln = eve.cloneNode(true);
+    cln.addEventListener("touchstart",dbltouch,false);
+    cln.addEventListener("touchmove",touchm,false);
     if (mode=="cut"){
         oldParent.removeChild(eve);
+        const index = dateMap[parseInt(oldParent.id)].indexOf(eve);
+        if (index > -1) {
+            dateMap[parseInt(oldParent.id)].splice(index, 1);
+        }
         document.getElementById(document.getElementById("newDate").value).appendChild(eve);
+        
     }
     else{
         document.getElementById(document.getElementById("newDate").value).appendChild(cln);
     }
-    
+    dateMap[parseInt(document.getElementById("newDate").value)].push(cln);
     document.getElementById("moveEvent").style.display = "none";
+    updateDayView(parseInt(oldParent.id));
 }
+function dbltouch(event){
+    if (clickTimer == null) {
+        clickTimer = setTimeout(function () {
+            clickTimer = null;
+            // alert("single");
+
+        }, 300)
+    } else {
+        clearTimeout(clickTimer);
+        clickTimer = null;
+        console.log("double");
+        var dupev = event.target.parentElement;
+        var cln = dupev.cloneNode(true);
+        cln.id="eventMonth"+count;
+        cln.addEventListener("touchstart",dbltouch,false);
+        cln.addEventListener("touchmove",touchm,false);
+        document.getElementById(dupev.dataset.date).appendChild(cln);
+
+    }
+    // if(!tapedTwice) {
+    //     tapedTwice = true;
+    //     setTimeout( function() { 
+    //         console.log("double");
+    //         tapedTwice = false;
+            
+    //     }, 200 );
+    //     return false;
+    // }
+    // event.preventDefault();
+    // //action on double tap goes below
+    // console.log("double-tap");
+    // var dupev = event.target.parentElement;
+    // document.getElementById(dupev.dataset.date).appendChild(dupev);
+    // // console.log(dupev.dataset.date); 
+    // // alert('You tapped me Twice !!!');
+    
+}
+function allowDrop(ev) {
+    ev.preventDefault();
+  }
+  
+  function drag(ev) {
+    ev.dataTransfer.setData("text", ev.target.id);
+  }
+  
+  function drop(ev) {
+    ev.preventDefault();
+    var data = ev.dataTransfer.getData("text");
+    console.log("am i here?")
+    ev.target.appendChild(document.getElementById(data));
+  }
 
 function addEvent(){
     var eventName = document.getElementById("eventName").value;
@@ -140,7 +289,6 @@ function addEvent(){
     var date =document.getElementById("dateentry").value;
     var startTime = document.getElementById("startTime").value;
     var endTime = document.getElementById("endTime").value;
-    count = count+1;
     var t =0;
     var h =0;
     if (startTime >0){
@@ -157,37 +305,53 @@ function addEvent(){
         cancelEvent();
     }
     else{
-        var ev = document.createElement("div");
-        ev.id = "event"+count;
-        ev.className = "event";
-        ev.innerHTML="<span class=\"title\">"+eventName+"</span><p class=\"desc\">"+eventDesc+"<p>";
-        ev.style="margin-top:"+t+"px;height:"+h+"px";
-        document.getElementById("events").insertBefore(ev,document.getElementById("events").firstChild);
+        // var ev = document.createElement("div");
+        // ev.id = "event"+count;
+        // ev.className = "event";
+        // ev.innerHTML="<span class=\"title\">"+eventName+"</span><p class=\"desc\">"+eventDesc+"<p>";
+        // ev.style="margin-top:"+t+"px;height:"+h+"px";
+        // document.getElementById("events").insertBefore(ev,document.getElementById("events").firstChild);
         if (date!=""){
             var mev = document.createElement("div");
             mev.id = "eventMonth"+count;
+            mev.dataset.desc = eventDesc;
+            mev.dataset.count = count;
+            mev.dataset.t = t;
+            mev.dataset.h = h;
+            mev.dataset.eventName = eventName;
             mev.dataset.date = date;
+            mev.draggable=true;
+            ondragstart="drag(event)"
             mev.className = "eventMonth";
             mev.innerHTML="<p style=\"width:100%\" class=\"eventMonthtitle\" data-date="+date+">"+ eventName+"</p>";
             document.getElementById(date).appendChild(mev);
-            // console.log(mev);
+            mev.addEventListener("touchstart",dbltouch,false);
+            mev.addEventListener("touchmove",touchm,false);
+            dateMap[parseInt(date)].push(mev);
+            // dateMap.put(date, dateMap.get(parseInt(date)).push(mev));
+            // mev.contain
+            // console.log(dateMap);
 
         }
-
-
-
-    }
+        count = count+1;
+        console.log("creating event");
+        updateDayView(date);
     
+}
+   
     cancelEvent();
-
-
 }
 
 function del(){
     var eve = touch.target.parentElement;
+    console.log(eve);
+    const index = dateMap[parseInt(touch.target.dataset.date)].indexOf(eve);
+    if (index > -1) {
+        dateMap[parseInt(touch.target.dataset.date)].splice(index, 1);
+    }
     eve.remove();
-    
     document.getElementById("deleteEvent").style.display = "none";
+    updateDayView(parseInt(touch.target.dataset.date));
 }
 
 function cancelEvent(){
