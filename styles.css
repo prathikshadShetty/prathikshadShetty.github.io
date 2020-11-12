@@ -216,6 +216,7 @@ margin-top:20px;
   border-style: solid;
   border-top-width: 1px;
   border-color: #D1D1D1;
+  position: absolute; 
 }
 
 #expand{
@@ -228,6 +229,7 @@ border-bottom-color: #b5c0cd;
   border-top-width: 1px;
   border-color: #D1D1D1;
   will-change: height;
+  position: absolute;
 
 
 }
