@@ -1,3 +1,5 @@
+
+
 .row {
   display: flex;
   flex-direction: row;
@@ -212,7 +214,10 @@ margin-top:20px;
   border-style: solid;
   border-top-width: 1px;
   border-color: #D1D1D1;
+
 }
+
+
 
 .event {
   background-color: rgba(86, 184, 134, 0.4);

@@ -461,6 +461,7 @@ window.onload = function () {
         droppedIn = true;
         _('app_status').innerHTML = "You droped " + element_id + " into drop zone";
     }
+ 
 
     // Draggable element functionality
     var event_1 = _('dragevent');
