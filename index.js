@@ -443,29 +443,7 @@ window.onload = function () {
         droppedIn = true;
         _('app_status').innerHTML = "You droped " + element_id + " into drop zone";
     }
-    
-    //Scalable scroll
-    
-    var expandDiv = document.getElementById("expand");
-        var speed = 6;
-        
-        function expanding() {
-          var scrolltop = window.pageYOffset; // get number of pixels document has scrolled vertically
-          var scrollAndSpeed = (scrolltop / speed);
-          //Expand using transform
-          expandDiv.style.transform = "scaley( " + Math.min(Math.max(scrollAndSpeed, 1), 2) + ")";
-          
-          //Or using width
-          // expandDiv.style.height = Math.min(Math.max(scrollAndSpeed, 40), 195) + "%";
-        
-        }
-        
-        window.addEventListener('scroll', function() { // on page scroll
-          requestAnimationFrame(expanding); // call parallaxing()
-        }, false);
-    
-    
-    
+ 
 
     // Draggable element functionality
     var event_1 = _('dragevent');
