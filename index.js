@@ -10,6 +10,10 @@ var move=false;
 var tapedTwice = true;
 var tap = false;
 var prevDay =null;
+let moving = null;
+var startX;
+var doubleTouch = false;
+var startY;
 dates=["","October 1","October 2","October 3","October 4","October 5","October 6","October 7","October 8","October 9","October 10","October 11","October 12","October 13","October 14","October 15","October 16","October 17","October 18","October 19","October 20","October 21","October 22","October 23","October 24","October 25","October 26","October 27","October 28","October 29","October 30","October 31"] 
 
 // let dateMap = new Map([[1,[]],[2,[]],[3,[]],[4,[]],[5,[]],[6,[]],[7,[]],[8,[]],[9,[]],[10,[]],[11,[]],[12,[]],[13,[]],[14,[]],[15,[]],[16,[]],[17,[]],[18,[]],[19,[]],[20,[]],[21,[]],[22,[]],[23,[]],[24,[]],[25,[]],[26,[]],[27,[]],[28,[]],[29,[]],[30,[]],[31,[]]])
@@ -31,7 +35,6 @@ function touchs(event){
     // console.log(event);
     if (event.targetTouches.length == 1) {
         timer = setTimeout(function(){ 
-            console.log(move);
             if (move == false){
                 if( event.targetTouches[0].target.parentElement.id=="calendar-day"||event.targetTouches[0].target.parentElement.id=="events" ||event.targetTouches[0].target.parentElement.className=="eventMonth"||event.targetTouches[0].target.className=="eventMonth"){
                     
@@ -61,6 +64,12 @@ function touchs(event){
             document.getElementById("deleteEvent").style.display = "none";
     
         }
+        if (touch.target.parentElement.className=="eventMonth"||touch.target.className=="eventMonth"){
+            event.target.parentElement.style.width =  event.target.parentElement.clientWidth +'px';
+            event.target.parentElement.style.height =  event.target.parentElement.clientHeight+'px';
+            event.target.parentElement.style.position = "fixed";
+        }
+        doubleTouch=false;
 }}
 
 function touche(event){
@@ -76,6 +85,33 @@ function touche(event){
         updateDayView(event.target.id);
         prevDay = event.target.id;
         }
+
+    if (touch.target.parentElement.className=="eventMonth"&& doubleTouch==false){
+        var currentElememt = event.target.parentElement;
+        var oldparent = event.target.parentElement.parentElement;
+        var newParent = document.elementFromPoint( event.changedTouches[0].clientX,  event.changedTouches[0].clientY);
+        if (newParent.className=="calendar-day"){
+            console.log(oldparent,newParent);
+            oldparent.removeChild(currentElememt);
+            currentElememt.style.position = "relative";
+            currentElememt.style.width="";
+            currentElememt.style.height="";
+            currentElememt.style.left="";
+            currentElememt.style.top="";
+            currentElememt.dataset.date = newParent.id;
+            newParent.appendChild(currentElememt);
+            const index = dateMap[parseInt(oldparent.id)].indexOf(currentElememt);
+            if (index > -1) {
+                dateMap[parseInt(oldparent.id)].splice(index, 1);
+            }
+            dateMap[parseInt(newParent.id)].push(currentElememt);
+            
+            updateDayView(parseInt(oldparent.id));
+        }
+        currentElememt.style.position = "relative";
+      
+    }
+    
     EVENT = event;
     if (timer)
         clearTimeout(timer);
@@ -87,11 +123,13 @@ function touchm(event){
     if (touch.target.parentElement.className=="eventMonth"||touch.target.className=="eventMonth"){
         var oldParent = document.getElementById(touch.target.dataset.date);
         // console.log(oldParent);
-        var ele = event.target.parentElement;
-        // oldParent.removeChild(ele);
-        ele.style.display="absolute";
-        ele.style.left = (event.targetTouches[0].pageX-480) + 'px';
-        ele.style.top = (event.targetTouches[0].pageY-350) + 'px';
+        // var ele = event.target.parentElement;
+        var touchLocation = event.targetTouches[0];
+        // console.log(par.style);
+        // ele.style.display="absolute";
+        // ele.style.transform = "translateX(" + touchLocation.pageX-480 + "px) translateY(" + touchLocation.pageY-450 + "px) translateZ(0)";
+        event.target.parentElement.style.left = (touchLocation.clientX) +'px';
+        event.target.parentElement.style.top = (touchLocation.clientY - 50 ) + 'px';
         event.preventDefault();
     }
     
@@ -231,6 +269,7 @@ function moveEvent(){
     document.getElementById("moveEvent").style.display = "none";
     updateDayView(parseInt(oldParent.id));
 }
+
 function dbltouch(event){
     if (clickTimer == null) {
         clickTimer = setTimeout(function () {
@@ -242,6 +281,7 @@ function dbltouch(event){
         clearTimeout(clickTimer);
         clickTimer = null;
         console.log("double");
+        doubleTouch = true;
         var dupev = event.target.parentElement;
         var cln = dupev.cloneNode(true);
         cln.id="eventMonth"+count;
@@ -334,7 +374,7 @@ function addEvent(){
 
         }
         count = count+1;
-        console.log("creating event");
+        // console.log("creating event");
         updateDayView(date);
     
 }
