@@ -49,7 +49,6 @@ function touchs(event){
                 }
 
             }
-            
         },touchduration); 
         touch = event.targetTouches[0];
         // console.log(event);
@@ -91,13 +90,14 @@ function touche(event){
         var oldparent = event.target.parentElement.parentElement;
         var newParent = document.elementFromPoint( event.changedTouches[0].clientX,  event.changedTouches[0].clientY);
         if (newParent.className=="calendar-day"){
-            console.log(oldparent,newParent);
+            // console.log(oldparent,newParent);
             oldparent.removeChild(currentElememt);
             currentElememt.style.position = "relative";
             currentElememt.style.width="";
             currentElememt.style.height="";
             currentElememt.style.left="";
             currentElememt.style.top="";
+            event.target.dataset.date = newParent.id;
             currentElememt.dataset.date = newParent.id;
             newParent.appendChild(currentElememt);
             const index = dateMap[parseInt(oldparent.id)].indexOf(currentElememt);
@@ -106,9 +106,19 @@ function touche(event){
             }
             dateMap[parseInt(newParent.id)].push(currentElememt);
             
-            updateDayView(parseInt(oldparent.id));
         }
         currentElememt.style.position = "relative";
+        var check = document.getElementById("calendar-day").contains(newParent);
+        if (check==false){
+            const index = dateMap[parseInt(oldparent.id)].indexOf(currentElememt);
+            if (index > -1) {
+                dateMap[parseInt(oldparent.id)].splice(index, 1);
+            }
+            oldparent.removeChild(currentElememt);
+            // document.getElementById("deleteEvent").style.display = "none";
+            
+        }
+        updateDayView(parseInt(oldparent.id));
       
     }
     
@@ -118,22 +128,38 @@ function touche(event){
 }
 
 function touchm(event){
-    
+    // console.log("moved");
     move = true;
     if (touch.target.parentElement.className=="eventMonth"||touch.target.className=="eventMonth"){
-        var oldParent = document.getElementById(touch.target.dataset.date);
-        // console.log(oldParent);
-        // var ele = event.target.parentElement;
+        
+        var oldParent = event.target.parentElement;
         var touchLocation = event.targetTouches[0];
-        // console.log(par.style);
-        // ele.style.display="absolute";
-        // ele.style.transform = "translateX(" + touchLocation.pageX-480 + "px) translateY(" + touchLocation.pageY-450 + "px) translateZ(0)";
+        var newParent = document.elementFromPoint( event.changedTouches[0].clientX,  event.changedTouches[0].clientY);
+        var check = document.getElementById("calendar-day").contains(newParent);
+        if (check==false){
+            oldParent.style.background= "rgba(203, 43, 32, 0.1)";
+            oldParent.style.borderStyle="dashed dashed dashed solid";
+            oldParent.style.borderWidth="2px";
+            oldParent.style.borderLeftWidth="5px";
+            oldParent.style.borderColor = "red";
+            oldParent.style.borderLeftColor ="#cb2b20";
+        }
+        else{
+            oldParent.style.background=  "rgba(86, 184, 134, 0.4)";
+            oldParent.style.borderStyle="solid";
+            oldParent.style.borderWidth="1px";
+            oldParent.style.borderLeftWidth="5px";
+            oldParent.style.borderColor = "#D1D1D1";
+            oldParent.style.borderLeftColor ="#57b986";
+        }
         event.target.parentElement.style.left = (touchLocation.clientX) +'px';
         event.target.parentElement.style.top = (touchLocation.clientY - 50 ) + 'px';
         event.preventDefault();
     }
     
 }
+
+
 function onMove (event) {
     console.log("what");
     tgt = event.target;
@@ -202,7 +228,7 @@ function cutEvent(){
         document.getElementById("moveEvent").style.display = "block";
         document.getElementById("moveEvent").style.top = (touch.pageY-50) + 'px';
         document.getElementById("moveEvent").style.left = (touch.pageX-50) + 'px';
-        var el = touch.target.dataset.date;
+        var el = touch.target.parentElement.dataset.date;
         document.getElementById("currentDate").value = el;
         var menu_state = document.querySelector('.menu').classList.value;
             if(menu_state=="menu open"){
@@ -218,7 +244,7 @@ function copyEvent(){
         document.getElementById("moveEvent").style.display = "block";
         document.getElementById("moveEvent").style.top = (touch.pageY-50) + 'px';
         document.getElementById("moveEvent").style.left = (touch.pageX-50) + 'px';
-        var el = touch.target.dataset.date;
+        var el = touch.target.parentElement.dataset.date;
         document.getElementById("currentDate").value = el;
         var menu_state = document.querySelector('.menu').classList.value;
             if(menu_state=="menu open"){
@@ -247,7 +273,8 @@ function deleteEvent(){
 }
 
 function moveEvent(){
-    var oldParent = document.getElementById(touch.target.dataset.date);
+    console.log(touch.target.parentElement);
+    var oldParent = document.getElementById(touch.target.parentElement.dataset.date);
     // console.log(dateMap[parseInt(oldParent.id)]);
     var eve = touch.target.parentElement;
     var cln = eve.cloneNode(true);
@@ -260,12 +287,16 @@ function moveEvent(){
             dateMap[parseInt(oldParent.id)].splice(index, 1);
         }
         document.getElementById(document.getElementById("newDate").value).appendChild(eve);
+        eve.dataset.date = parseInt(document.getElementById("newDate").value);
         
     }
     else{
         document.getElementById(document.getElementById("newDate").value).appendChild(cln);
+        cln.dataset.date = parseInt(document.getElementById("newDate").value);
     }
     dateMap[parseInt(document.getElementById("newDate").value)].push(cln);
+    
+    
     document.getElementById("moveEvent").style.display = "none";
     updateDayView(parseInt(oldParent.id));
 }
@@ -308,20 +339,7 @@ function dbltouch(event){
     // // alert('You tapped me Twice !!!');
     
 }
-function allowDrop(ev) {
-    ev.preventDefault();
-  }
-  
-  function drag(ev) {
-    ev.dataTransfer.setData("text", ev.target.id);
-  }
-  
-  function drop(ev) {
-    ev.preventDefault();
-    var data = ev.dataTransfer.getData("text");
-    console.log("am i here?")
-    ev.target.appendChild(document.getElementById(data));
-  }
+
 
 function addEvent(){
     var eventName = document.getElementById("eventName").value;

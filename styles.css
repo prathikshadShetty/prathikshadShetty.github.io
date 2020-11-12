@@ -259,6 +259,26 @@ margin-top:20px;
   font-size: 20px;
   cursor: move;
 }
+.eventMonth-del {
+  background-color: rgba(203, 43, 32, 0.1);
+  position: relative;
+  width: 75%;
+  margin-top: 5px;
+  height: 30px;
+  border-radius: 5px;
+  border-style: dashed dashed dashed solid;
+  border-width: 2px;
+  border-left-width: 5px;
+  border-color: red;
+  border-left-color: rgba(203, 43, 32, 0.8);
+  z-index: 3;
+  text-align: left;
+  touch-action: none;
+  user-select: none;
+  /* padding-left: 5px; */
+  font-size: 20px;
+  cursor: move;
+}
 
 .fa-times-circle{
 font-size: 20px;
@@ -266,6 +286,10 @@ color: #c87f8a;
 background: white;
 transition: 0.7s;
 border-style: none;
+}
+
+.fa-info-circle{
+  font-size: 20px;
 }
 
 .fa-cut, .fa-trash-alt,.fa-plus,.fa-copy,.fa-bell{
