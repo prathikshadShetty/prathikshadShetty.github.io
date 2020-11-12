@@ -1,0 +1,75 @@
+
+<div id="events" class="timings-event">
+            <!-- <div id="drop_zone" ondragover="return false"></div>
+            <div id = "dragevent" class="event" draggable="true" >Meeting with UI project team</div> -->
+            <div class="day-view-empty"></div>
+            <div class="day-view-empty"></div>
+            <div class="day-view-empty">
+                    <div id="expand"></div>
+                </div>
+            <div class="day-view-empty"></div>
+            <div class="day-view-empty"></div>
+            <div class="day-view-empty"></div>
+            <div class="day-view-empty"></div>
+            <div class="day-view-empty"></div>
+            <div class="day-view-empty"></div>
+            <div class="day-view-empty"></div>
+            <div class="day-view-empty"></div>
+            <div class="day-view-empty"></div>
+            
+          </div>
+
+        </div>
+
+<style>
+
+body {
+  height: 1000px;
+}
+
+.day-view-empty{
+  border-bottom-color: #b5c0cd;
+  background: white;
+  height:60px;
+  border-width: 0px;
+  border-style: solid;
+  border-top-width: 1px;
+  border-color: #D1D1D1;
+
+}
+
+#expand{
+border-bottom-color: #b5c0cd;
+  background: pink;
+  height:60px;
+  max-height: 90px;
+  border-width: 0px;
+  border-style: solid;
+  border-top-width: 1px;
+  border-color: #D1D1D1;
+  will-change: height;
+
+
+}
+
+
+</style>
+<script>
+        var expandDiv = document.getElementById("expand");
+        var speed = 6;
+        
+        function expanding() {
+          var scrolltop = window.pageYOffset; // get number of pixels document has scrolled vertically
+          var scrollAndSpeed = (scrolltop / speed);
+          //Expand using transform
+          expandDiv.style.transform = "scaley( " + Math.min(Math.max(scrollAndSpeed, 1), 2) + ")";
+          
+          //Or using width
+          // expandDiv.style.height = Math.min(Math.max(scrollAndSpeed, 40), 195) + "%";
+        
+        }
+        
+        window.addEventListener('scroll', function() { // on page scroll
+          requestAnimationFrame(expanding); // call parallaxing()
+        }, false);
+        </script>
