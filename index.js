@@ -51,7 +51,7 @@ function touchs(event){
             }
         },touchduration); 
         touch = event.targetTouches[0];
-        // console.log(event);
+        console.log(event);
         if(event.targetTouches[0].target.parentElement.id=="calendar-day"||event.targetTouches[0].target.parentElement.id=="events" || event.targetTouches[0].target.id=="bars"||event.targetTouches[0].target.parentElement.className=="eventMonth"||event.targetTouches[0].target.className=="eventMonth"){
             // console.log(touch);
             var menu_state = document.querySelector('.menu').classList.value;
@@ -67,6 +67,14 @@ function touchs(event){
             event.target.parentElement.style.width =  event.target.parentElement.clientWidth +'px';
             event.target.parentElement.style.height =  event.target.parentElement.clientHeight+'px';
             event.target.parentElement.style.position = "fixed";
+        }
+
+        if (event.target.id=="help"){
+            openhelp(event);
+        }
+        if (event.target.id=="help-screen"){
+            document.getElementById("help-screen").style.display = "none";
+
         }
         doubleTouch=false;
 }}
@@ -338,6 +346,14 @@ function dbltouch(event){
     // // console.log(dupev.dataset.date); 
     // // alert('You tapped me Twice !!!');
     
+}
+
+function openhelp(event){
+    console.log("triggered");
+    document.getElementById("help-screen").style.display = "block";
+}
+function closehelp(event){
+    document.getElementById("help-screen").style.display = "none";
 }
 
 

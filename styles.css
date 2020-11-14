@@ -293,8 +293,11 @@ transition: 0.7s;
 border-style: none;
 }
 
-.fa-info-circle{
+.fa-question-circle,.fa-info-circle,.fa-times{
   font-size: 20px;
+  color: #c87f8a;
+  /* background: white; */
+  border-style: none;
 }
 
 .fa-cut, .fa-trash-alt,.fa-plus,.fa-copy,.fa-bell{
@@ -496,4 +499,21 @@ background-color: red;
   border: none;
 
   background: rgb(241, 241, 241,0.4);
+}
+
+.overlay {
+  height: 100%;
+  width: 100%;
+  display: none;
+  position: fixed;
+  z-index: 12;
+  top: 0;
+  left: 0;
+  background-image: url("help.png");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  /* position: relative; */
+  background-color: rgb(0,0,0);
+  /* background-color: rgba(0,0,0,0.5); */
 }
