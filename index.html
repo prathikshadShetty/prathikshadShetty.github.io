@@ -202,6 +202,7 @@
                 <a id="bars" class="fa fa-times-circle"></a>
                 <a id="cut" href="javascript:;" onclick="cutEvent();" class="fa fa-cut"></a>
                 <a id="delete" href="javascript:;" onclick="deleteEvent();" class="fa fa-trash-alt"></a>
+                <a id="edit" href="javascript:;" onclick="edit();" class="fa fa-edit"></a>
                 <a id="add" href="javascript:;" onclick="add();" class="fa fa-plus"></a>
                 <a id="copy" href="javascript:;" onclick="copyEvent();" class="fa fa-copy"></a>
               </div>
@@ -260,7 +261,7 @@
                   <div class="time-selector">
                     <label class="headers">Start</label>
                     <select class="time" id="startTime" name="startTime">
-                      <option value="9">9:00 AM</option>
+                      <option value="9" selected>9:00 AM</option>
                       <option value="9.5">9:30 AM</option>
                       <option value="10">10:00 AM</option>
                       <option value="10.5">10:30 AM</option>
@@ -292,7 +293,7 @@
                       <select class="time" id="endTime" onselect="" name="endTime">
                         <option value="9">9:00 AM</option>
                         <option value="9.5">9:30 AM</option>
-                        <option value="10">10:00 AM</option>
+                        <option value="10" selected>10:00 AM</option>
                         <option value="10.5">10:30 AM</option>
                         <option value="11">11:00 AM</option>
                         <option value="11.5">11:30 AM</option>
@@ -318,13 +319,14 @@
                     </select>
                   </div>
                   <div style="display: flex;">
-                    <button class="btn" onclick="addEvent()">Add</button>
+                    <button id="add_btn" class="btn" onclick="addEvent()">Add</button>
                     <button class="btn cancel" onclick="cancelEvent()">Cancel</button>
                   </div>
               
                   
                 </div>
               </div>
+
               <div class="add-event" id="moveEvent">
                 <div style="display: block;" class="form-container" >
                   <div style="display: flex;">
@@ -398,7 +400,7 @@
         </div>
           <script src="index.js"></script>
           <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-          <script src="https://unpkg.com/interactjs/dist/interact.min.js"></script>  
+          <!-- <script src="https://unpkg.com/interactjs/dist/interact.min.js"></script>   -->
         </body>
         </html>
     
