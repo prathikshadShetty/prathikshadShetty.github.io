@@ -24,12 +24,69 @@ dateMap=[[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]
 
 document.getElementById("month-view").addEventListener('touchstart',touchs,false);
 document.getElementById("month-view").addEventListener('touchend',touche,false);
-document.getElementById("day-view").addEventListener('touchstart',touchs,false);
-document.getElementById("day-view").addEventListener('touchend',touche,false);
-// const evMon = interact('.eventMonth') 
+document.getElementById("timings").addEventListener('touchstart',touchsdrag,false);
+document.getElementById("timings").addEventListener('touchend',touchedrag,false);
+document.getElementById("timings").addEventListener("touchmove",touchmdrag,false);
+// document.getElementById("day-view").addEventListener('scroll', (event) => {
+//     // console.log("did this happen");
+//     requestAnimationFrame(expanding);
+//     // handle the scroll event 
+// });
 
-// document.getElementById("month-view").addEventListener('touchmove',touchm,false);
-// document.getElementById("day-view").addEventListener('touchmove',touchm,false);
+
+// ||event.targetTouches[0].target.parentElement.id=="events" 
+function touchsdrag(event){
+    event.preventDefault();
+    // console.log(event.targetTouches[0]);
+    startX = event.targetTouches[0].pageX;
+    startY = event.targetTouches[0].pageY;
+    console.log("touchsdrag",startX,startY);
+}
+function touchedrag(event){
+    event.preventDefault();
+    console.log("touchedrag");
+    var ev = document.getElementsByClassName("event");
+    for (i=0; i<ev.length;i++){
+        // ev[i].parentNode.style.height = (Math.abs(event.changedTouches[0].pageY-startY)) +"px";
+        var start = parseFloat(ev[i].dataset.start);
+        var end = parseFloat(ev[i].dataset.end);
+        var diff = (end-start)*2;
+        document.getElementById(ev[i].dataset.start+"-t").style.height = "60px";
+        ev[i].style.height = ev[i].dataset.h +"px";
+        for (j=start+0.5;j<end;j=j+0.5){
+            // console.log(document.getElementById(j+"-t"));
+            document.getElementById(j+"-t").style.visibility = "visible";
+        }
+        // console.log(ev[i].dataset.end-ev[i].dataset.start);
+        
+        // console.log(ev[i].style.height);
+    }
+
+    
+}
+function touchmdrag(event){
+    event.preventDefault();
+    var ev = document.getElementsByClassName("event");
+    for (i=0; i<ev.length;i++){
+        // ev[i].parentNode.style.height = (Math.abs(event.changedTouches[0].pageY-startY)) +"px";
+        var start = parseFloat(ev[i].dataset.start);
+        var end = parseFloat(ev[i].dataset.end);
+        var diff = (end-start)*2;
+        document.getElementById(ev[i].dataset.start+"-t").style.height = (Math.abs(event.changedTouches[0].pageY-startY)) +"px";
+        ev[i].style.height = (Math.abs(event.changedTouches[0].pageY-startY)) +"px";
+        for (j=start+0.5;j<end;j=j+0.5){
+            console.log(document.getElementById(j+"-t"));
+            document.getElementById(j+"-t").style.visibility = "hidden";
+        }
+        // console.log(ev[i].dataset.end-ev[i].dataset.start);
+        
+        // console.log(ev[i].style.height);
+    }
+
+    
+    // console.log(startY,event.changedTouches[0].pageY-startY);
+}
+
 
 function touchs(event){
     event.preventDefault();
@@ -37,9 +94,15 @@ function touchs(event){
     if (event.targetTouches.length == 1) {
         timer = setTimeout(function(){ 
             if (move == false){
-                if( event.targetTouches[0].target.parentElement.id=="calendar-day"||event.targetTouches[0].target.parentElement.id=="events" ||event.targetTouches[0].target.parentElement.className=="eventMonth"||event.targetTouches[0].target.className=="eventMonth"){
+                if( event.targetTouches[0].target.parentElement.id=="calendar-day"||event.targetTouches[0].target.parentElement.className=="eventMonth"||event.targetTouches[0].target.className=="eventMonth"){
                     var touch = event.targetTouches[0];
-                    console.log("why");
+                                        
+                    if (touch.target.parentElement.className=="eventMonth"||touch.target.className=="eventMonth"){
+                        event.target.parentElement.style.width =  event.target.parentElement.clientWidth +'px';
+                        event.target.parentElement.style.height =  event.target.parentElement.clientHeight+'px';
+                        event.target.parentElement.style.position = "relative";
+                    }
+                    // console.log(touch);
                     date = parseInt(touch.target.id);
                     document.querySelector('.menu').classList.value="menu open";
                     var menu = document.getElementById("menu");
@@ -52,7 +115,7 @@ function touchs(event){
         },touchduration); 
         touch = event.targetTouches[0];
         currentevent = event;
-        console.log(event);
+        // console.log(event.target.parentElement);
         if(event.targetTouches[0].target.parentElement.id=="calendar-day"||event.targetTouches[0].target.parentElement.id=="events" || event.targetTouches[0].target.id=="bars"||event.targetTouches[0].target.parentElement.className=="eventMonth"||event.targetTouches[0].target.className=="eventMonth"){
             // console.log(touch);
             var menu_state = document.querySelector('.menu').classList.value;
@@ -79,6 +142,7 @@ function touchs(event){
 
         }
         doubleTouch=false;
+        console.log(event);
 }}
 
 function touche(event){
@@ -99,6 +163,7 @@ function touche(event){
         var currentElememt = event.target.parentElement;
         var oldparent = event.target.parentElement.parentElement;
         var newParent = document.elementFromPoint( event.changedTouches[0].clientX,  event.changedTouches[0].clientY);
+        console.log(currentElememt,newParent);
         if (newParent.className=="calendar-day"){
             // console.log(oldparent,newParent);
             oldparent.removeChild(currentElememt);
@@ -118,8 +183,11 @@ function touche(event){
             
         }
         currentElememt.style.position = "relative";
+        // delete an element
         var check = document.getElementById("calendar-day").contains(newParent);
-        if (check==false){
+        var isMenu =  document.getElementById("home").contains(newParent);
+        if (check==false && isMenu==false){
+            console.log("i am deleting ele");
             const index = dateMap[parseInt(oldparent.id)].indexOf(currentElememt);
             if (index > -1) {
                 dateMap[parseInt(oldparent.id)].splice(index, 1);
@@ -169,29 +237,39 @@ function touchm(event){
     
 }
 
+function expanding() {
+    console.log("expand called");
+    var scrolltop =  document.getElementById("events").scrollTop; // get number of pixels document has scrolled vertically
+    var scrollAndSpeed = (scrolltop/6);
+    // console.log(scrollAndSpeed);
+    //Expand using transform
+    // expandDiv.style.transform = "scaley( " + Math.min(Math.max(scrollAndSpeed, 1), 2) + ")";
 
-function onMove (event) {
-    console.log("what");
-    tgt = event.target;
-  
-    const dataX = tgt.getAttribute('data-x');
-    const dataY = tgt.getAttribute('data-y');
-    const initialX = parseFloat(dataX) || 0;
-    const initialY = parseFloat(dataY) || 0;
-  
-    const deltaX = event.dx;
-    const deltaY = event.dy;
-  
-    const newX = initialX + deltaX;
-    const newY = initialY + deltaY;
-  
-    tgt
-      .style
-      .transform = `translate(${newX}px, ${newY}px)`;
-  
-      tgt.setAttribute('data-x', newX);
-      tgt.setAttribute('data-y', newY);
-  }
+    //Or using width
+    // expandDiv.style.height = Math.min(Math.max(scrollAndSpeed, 60), 195) + "%";
+            //     document.getElementById("expand").parentNode.style.height = Math.min(Math.max(scrollAndSpeed, 60), 150) + "px"; 
+            //    document.getElementById("expand").style.height = Math.min(Math.max(scrollAndSpeed, 60), 150) + "px";
+    var ev = document.getElementsByClassName("event");
+
+    for (i=0; i<ev.length;i++){
+        // console.log(ev[i]);
+        // ev[i].parentNode.style.height = Math.min(Math.max(scrollAndSpeed, 60), 150) + "px"; 
+        // ev[i].style.height = Math.min(Math.max(scrollAndSpeed, 60), 150) + "px";
+        ev[i].parentNode.style.height = Math.min(scrollAndSpeed, 150) + "px"; 
+        ev[i].style.height = Math.min(scrollAndSpeed, 150) + "px";
+        
+    }
+
+         
+    // document.getElementById("expand").style.transform = "scaley( " + Math.min(Math.max(scrollAndSpeed, 1), 2) + ")";          
+    // document.getElementById("expand").parentNode.style.transform = "scaley( " + Math.min(Math.max(scrollAndSpeed, 1), 2) + ")";
+}
+            
+            // document.getElementById("events").addEventListener('scroll', function() { // on page scroll
+            // requestAnimationFrame(expanding); // call parallaxing()
+            // //   expanding()
+            //     }, false);  
+
   
 function updateDayView(currentDay){
     dayEvents = dateMap[parseInt(currentDay)];
@@ -207,8 +285,12 @@ function updateDayView(currentDay){
         var ev = document.createElement("div");
         ev.id = "event"+curr.dataset.count;
         ev.className = "event";
+        ev.dataset.h = curr.dataset.h;
+        ev.dataset.start = curr.dataset.start;
+        ev.dataset.end = curr.dataset.end;
         ev.innerHTML="<span class=\"title\">"+curr.dataset.eventName+"</span><p class=\"desc\">"+curr.dataset.desc+"<p>";
-        ev.style="margin-top:"+curr.dataset.t+"px;height:"+curr.dataset.h+"px";
+        // ev.style="margin-top:"+curr.dataset.t+"px;height:"+curr.dataset.h+"px;";
+        ev.style="margin-top:"+curr.dataset.t+"px;height:"+curr.dataset.h+"px;min-height:"+curr.dataset.h+"px;max-height:"+(curr.dataset.h*3)+"px;";
         document.getElementById("events").insertBefore(ev,document.getElementById("events").firstChild);
         // console.log("updating day view");
       }
@@ -408,8 +490,7 @@ function closehelp(event){
 
 
 function addEvent(){
-
-
+    
     var eventName = document.getElementById("eventName").value;
     var eventDesc = document.getElementById("eventDesc").value;
     var date =document.getElementById("dateentry").value;
@@ -442,6 +523,8 @@ function addEvent(){
             mev.id = "eventMonth"+count;
             mev.dataset.desc = eventDesc;
             mev.dataset.count = count;
+            mev.dataset.start = startTime;
+            mev.dataset.end = endTime;
             mev.dataset.t = t;
             mev.dataset.h = h;
             mev.dataset.eventName = eventName;
@@ -460,6 +543,10 @@ function addEvent(){
 
         }
         count = count+1;
+        if (editEvent){
+            del();
+        }
+    
         // console.log("creating event");
         updateDayView(date);
     
@@ -489,145 +576,145 @@ function cancelEvent(){
 }
 
 
-// drag drop event starts
+// // drag drop event starts
 
-function _(id) {
-    return document.getElementById(id);
-}
-var droppedIn = false;
+// function _(id) {
+//     return document.getElementById(id);
+// }
+// var droppedIn = false;
 
-window.onload = function () {
-    // Drag zone functionality
-    var dropZone = _('drop_zone');
+// window.onload = function () {
+//     // Drag zone functionality
+//     var dropZone = _('drop_zone');
 
-    dropZone.addEventListener('dragenter', handleDragEnter, false);
-    dropZone.addEventListener('dragleave', handleDragLeave, false);
-    dropZone.addEventListener('drop', handleDragDrop, false);
+//     dropZone.addEventListener('dragenter', handleDragEnter, false);
+//     dropZone.addEventListener('dragleave', handleDragLeave, false);
+//     dropZone.addEventListener('drop', handleDragDrop, false);
 
-    function handleDragEnter(e) {
-        _('app_status').innerHTML = "You are dragging over the " + e
-            .target
-            .getAttribute('id');
-    }
+//     function handleDragEnter(e) {
+//         _('app_status').innerHTML = "You are dragging over the " + e
+//             .target
+//             .getAttribute('id');
+//     }
 
-    function handleDragLeave(e) {
-        _('app_status').innerHTML = "You left the " + e
-            .target
-            .getAttribute('id');
-    }
+//     function handleDragLeave(e) {
+//         _('app_status').innerHTML = "You left the " + e
+//             .target
+//             .getAttribute('id');
+//     }
 
-    function handleDragDrop(e) {
-        e.preventDefault();
-        var element_id = e
-            .dataTransfer
-            .getData("text");
-        e
-            .target
-            .appendChild(_(element_id));
-        _(element_id).removeAttribute("draggable")
-        _(element_id).style.cursor = "default";
-        droppedIn = true;
-        _('app_status').innerHTML = "You droped " + element_id + " into drop zone";
-    }
+//     function handleDragDrop(e) {
+//         e.preventDefault();
+//         var element_id = e
+//             .dataTransfer
+//             .getData("text");
+//         e
+//             .target
+//             .appendChild(_(element_id));
+//         _(element_id).removeAttribute("draggable")
+//         _(element_id).style.cursor = "default";
+//         droppedIn = true;
+//         _('app_status').innerHTML = "You droped " + element_id + " into drop zone";
+//     }
  
 
-    // Draggable element functionality
-    var event_1 = _('dragevent');
-//     var calendar_2 = _('calendar-day-empty2');
-//     var calendar_3 = _('calendar-day-empty3');
+//     // Draggable element functionality
+//     var event_1 = _('dragevent');
+// //     var calendar_2 = _('calendar-day-empty2');
+// //     var calendar_3 = _('calendar-day-empty3');
 
-    var activeEvent = '';
-    var originalX = '';
-    var originalY = '';
+//     var activeEvent = '';
+//     var originalX = '';
+//     var originalY = '';
 
-    dragevent.addEventListener('dragstart', handleDragStart, false);
-    dragevent.addEventListener('dragend', handleDragEnd, false);
-    dragevent.addEventListener('touchstart', handleTouchStart, false);
-    dragevent.addEventListener('touchmove', handleTouchMove, false);
-    dragevent.addEventListener('touchend', handleTouchEnd, false);
+//     dragevent.addEventListener('dragstart', handleDragStart, false);
+//     dragevent.addEventListener('dragend', handleDragEnd, false);
+//     dragevent.addEventListener('touchstart', handleTouchStart, false);
+//     dragevent.addEventListener('touchmove', handleTouchMove, false);
+//     dragevent.addEventListener('touchend', handleTouchEnd, false);
 
-//     object2.addEventListener('dragstart', handleDragStart, false);
-//     object2.addEventListener('dragend', handleDragEnd, false);
-//     object2.addEventListener('touchstart', handleTouchStart, false);
-//     object2.addEventListener('touchmove', handleTouchMove, false);
-//     object2.addEventListener('touchend', handleTouchEnd, false);
+// //     object2.addEventListener('dragstart', handleDragStart, false);
+// //     object2.addEventListener('dragend', handleDragEnd, false);
+// //     object2.addEventListener('touchstart', handleTouchStart, false);
+// //     object2.addEventListener('touchmove', handleTouchMove, false);
+// //     object2.addEventListener('touchend', handleTouchEnd, false);
 
-//     object3.addEventListener('dragstart', handleDragStart, false);
-//     object3.addEventListener('dragend', handleDragEnd, false);
-//     object3.addEventListener('touchstart', handleTouchStart, false);
-//     object3.addEventListener('touchmove', handleTouchMove, false);
-//     object3.addEventListener('touchend', handleTouchEnd, false);
+// //     object3.addEventListener('dragstart', handleDragStart, false);
+// //     object3.addEventListener('dragend', handleDragEnd, false);
+// //     object3.addEventListener('touchstart', handleTouchStart, false);
+// //     object3.addEventListener('touchmove', handleTouchMove, false);
+// //     object3.addEventListener('touchend', handleTouchEnd, false);
 
-    function handleDragStart(e) {
-        _('app_status').innerHTML = "Dragging the element " + e
-            .target
-            .getAttribute('id');
-        e.dataTransfer.dropEffect = "move";
-        e
-            .dataTransfer
-            .setData("text", e.target.getAttribute('id'));
-    }
+//     function handleDragStart(e) {
+//         _('app_status').innerHTML = "Dragging the element " + e
+//             .target
+//             .getAttribute('id');
+//         e.dataTransfer.dropEffect = "move";
+//         e
+//             .dataTransfer
+//             .setData("text", e.target.getAttribute('id'));
+//     }
 
-    function handleDragEnd(e) {
-        if (droppedIn == false) {
-            _('app_status').innerHTML = "You let the " + e
-                .target
-                .getAttribute('id') + " go.";
-        }
-        droppedIn = false;
-    }
+//     function handleDragEnd(e) {
+//         if (droppedIn == false) {
+//             _('app_status').innerHTML = "You let the " + e
+//                 .target
+//                 .getAttribute('id') + " go.";
+//         }
+//         droppedIn = false;
+//     }
 
-    function handleTouchStart(e) {
-        _('app_status').innerHTML = "Touch start with element " + e
-            .target
-            .getAttribute('id');
-        originalX = (e.target.offsetLeft - 10) + "px";
-        originalY = (e.target.offsetTop - 10) + "px";
-        activeEvent = 'start';
-    }
+//     function handleTouchStart(e) {
+//         _('app_status').innerHTML = "Touch start with element " + e
+//             .target
+//             .getAttribute('id');
+//         originalX = (e.target.offsetLeft - 10) + "px";
+//         originalY = (e.target.offsetTop - 10) + "px";
+//         activeEvent = 'start';
+//     }
 
-    function handleTouchMove(e) {
-        var touchLocation = e.targetTouches[0];
-        var pageX = (touchLocation.pageX - 50) + "px";
-        var pageY = (touchLocation.pageY - 50) + "px";
-        _('app_status').innerHTML = "Touch x " + pageX + " Touch y " + pageY;
-        e.target.style.position = "absolute";
-        e.target.style.left = pageX;
-        e.target.style.top = pageY;
-        activeEvent = 'move';
-    }
+//     function handleTouchMove(e) {
+//         var touchLocation = e.targetTouches[0];
+//         var pageX = (touchLocation.pageX - 50) + "px";
+//         var pageY = (touchLocation.pageY - 50) + "px";
+//         _('app_status').innerHTML = "Touch x " + pageX + " Touch y " + pageY;
+//         e.target.style.position = "absolute";
+//         e.target.style.left = pageX;
+//         e.target.style.top = pageY;
+//         activeEvent = 'move';
+//     }
 
-    function handleTouchEnd(e) {
-        e.preventDefault();
-        if (activeEvent === 'move') {
-            var pageX = (parseInt(e.target.style.left) - 50);
-            var pageY = (parseInt(e.target.style.top) - 50);
+//     function handleTouchEnd(e) {
+//         e.preventDefault();
+//         if (activeEvent === 'move') {
+//             var pageX = (parseInt(e.target.style.left) - 50);
+//             var pageY = (parseInt(e.target.style.top) - 50);
 
-            if (detectTouchEnd(dropZone.offsetLeft, dropZone.offsetTop, pageX, pageY, dropZone.offsetWidth, dropZone.offsetHeight)) {
-                dropZone.appendChild(e.target);
-                e.target.style.position = "initial";
-                droppedIn = true;
-                _('app_status').innerHTML = "You droped " + e
-                    .target
-                    .getAttribute('id') + " into drop zone";
-            } else {
-                e.target.style.left = originalX;
-                e.target.style.top = originalY;
-                _('app_status').innerHTML = "You let the " + e
-                    .target
-                    .getAttribute('id') + " go.";
-            }
-        }
-    }
+//             if (detectTouchEnd(dropZone.offsetLeft, dropZone.offsetTop, pageX, pageY, dropZone.offsetWidth, dropZone.offsetHeight)) {
+//                 dropZone.appendChild(e.target);
+//                 e.target.style.position = "initial";
+//                 droppedIn = true;
+//                 _('app_status').innerHTML = "You droped " + e
+//                     .target
+//                     .getAttribute('id') + " into drop zone";
+//             } else {
+//                 e.target.style.left = originalX;
+//                 e.target.style.top = originalY;
+//                 _('app_status').innerHTML = "You let the " + e
+//                     .target
+//                     .getAttribute('id') + " go.";
+//             }
+//         }
+//     }
 
-    function detectTouchEnd(x1, y1, x2, y2, w, h) {
-        //Very simple detection here
-        if (x2 - x1 > w) 
-            return false;
-        if (y2 - y1 > h) 
-            return false;
-        return true;
-    }
-}
+//     function detectTouchEnd(x1, y1, x2, y2, w, h) {
+//         //Very simple detection here
+//         if (x2 - x1 > w) 
+//             return false;
+//         if (y2 - y1 > h) 
+//             return false;
+//         return true;
+//     }
+// }
 
 // .getElementById("month-view")

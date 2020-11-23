@@ -1,4 +1,19 @@
 
+/* html { overflow-y: hidden; } */
+html {
+  /* overflow: scroll;  */
+  overflow-x: hidden;
+  overflow-y: hidden;
+}
+/*::-webkit-scrollbar { 
+  width: 5px;   
+  background: transparent;  
+ } 
+::-webkit-scrollbar-thumb {
+  background: red; 
+  border-radius: 10px;
+  height: 2px;
+}*/
 
 .row {
   display: flex;
@@ -18,6 +33,11 @@
 .left{
   flex-basis: 40%;
   border-right: 3px solid black;
+  /* overflow-x: auto; */
+}
+
+.right{
+  /* overflow-x: scroll; */
 }
 
 .day-view{display: flex;z-index: 1;}
@@ -161,6 +181,7 @@ li {
   height:60px;
   margin:0;
   padding:0;
+  min-height: 60px;
 }
 
 .timings .date .small{
@@ -169,6 +190,7 @@ margin-top:20px;
 
 .timings .small{
   height: 30px;
+  min-height: 30px;
 }
 
 .timings-event{
@@ -213,7 +235,8 @@ margin-top:20px;
   border-width: 0px;
   border-style: solid;
   border-top-width: 1px;
-  border-color: #D1D1D1;
+  border-color: rgba(182, 193, 205, 0.44);
+  overflow: hidden;
 
 }
 
@@ -231,6 +254,7 @@ margin-top:20px;
   text-align:left;
   padding-left: 5px;
   font-size: 20px;
+  transition: 0.2s;
   cursor: move;
 }
 
